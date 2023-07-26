@@ -44,6 +44,7 @@ const getUrlByShortUrlService = async (shortenedUrl) => {
     });
 };
 
+
 const getAllUrlsService = async (sessionId) => {
     const urls = await Url.find({ sessionId: sessionId });
     return urls;
