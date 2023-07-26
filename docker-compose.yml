@@ -1,0 +1,36 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3001:3001
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/url-shortener
+      - REDIS_URL=redis://redis:6379
+      - PORT=3001
+      - SESSION_SECRET=dVrhvvCyaLtd3oDoaYwd
+    depends_on:
+      - mongo
+      - redis
+  client:
+    build: ./client
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+volumes:
+  mongo_data:
