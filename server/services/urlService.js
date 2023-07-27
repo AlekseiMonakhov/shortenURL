@@ -16,33 +16,30 @@ const shortenUrlService = async (url, subpart, sessionId) => {
         throw new Error('This URL subpart is already in use');
     }
 
-    const fullShortenedUrl = `http://localhost/${subpart}`;
-
     const newUrl = new Url({
-        url, shortenedUrl: fullShortenedUrl, sessionId
+        url, shortenedUrl: subpart, sessionId
     });
 
     await newUrl.save();
 
-    redisClient.set(fullShortenedUrl, url);
+    redisClient.set(subpart, url);
 
     return newUrl;
 };
 
+
 const getUrlByShortUrlService = async (shortenedUrl) => {
-    // we create the full URL here instead
-    const fullShortenedUrl = `http://localhost/${shortenedUrl}`;
     return new Promise((resolve, reject) => {
-        redisClient.get(fullShortenedUrl, async (error, url) => {
+        redisClient.get(shortenedUrl, async (error, url) => {
             if (error) reject(error);
 
             if (url) {
                 resolve(url);
             } else {
-                const urlDoc = await Url.findOne({ shortenedUrl: fullShortenedUrl });
+                const urlDoc = await Url.findOne({ shortenedUrl });
 
                 if (urlDoc) {
-                    redisClient.set(fullShortenedUrl, urlDoc.url);
+                    redisClient.set(shortenedUrl, urlDoc.url);
                     urlDoc.clicks += 1;
                     await urlDoc.save();
                     resolve(urlDoc.url);
@@ -53,6 +50,7 @@ const getUrlByShortUrlService = async (shortenedUrl) => {
         });
     });
 };
+
 
 const getAllUrlsService = async (sessionId) => {
     const urls = await Url.find({ sessionId: sessionId });

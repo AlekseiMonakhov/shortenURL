@@ -1,5 +1,3 @@
-import React from 'react';
-
 const UrlTable = ({ urls }) => {
     return (
         <table>
@@ -11,7 +9,7 @@ const UrlTable = ({ urls }) => {
             </thead>
             <tbody>
             {urls.map((url) => {
-                const fullUrl = url.shortenedUrl.replace('http://localhost/', 'http://localhost:3001/');
+                const fullUrl = `http://localhost:3001/${url.shortenedUrl}`;
                 return (
                     <tr key={url._id}>
                         <td>{url.url}</td>
