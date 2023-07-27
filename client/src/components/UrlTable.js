@@ -5,6 +5,8 @@ import {Link} from "react-router-dom";
 
 const UrlTable = () => {
     const [urls, setUrls] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const urlsPerPage = 5;
 
     useEffect(() => {
         const fetchUrls = async () => {
@@ -17,6 +19,12 @@ const UrlTable = () => {
     const handleNewUrl = (url) => {
         setUrls(prevUrls => [url, ...prevUrls]);
     };
+
+    const indexOfLastUrl = currentPage * urlsPerPage;
+    const indexOfFirstUrl = indexOfLastUrl - urlsPerPage;
+    const currentUrls = urls.slice(indexOfFirstUrl, indexOfLastUrl);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -32,7 +40,7 @@ const UrlTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {urls.map((url) => {
+                {currentUrls.map((url) => {
                     const fullUrl = `http://localhost:3001/${url.shortenedUrl}`;
                     return (
                         <tr key={url._id}>
@@ -43,6 +51,17 @@ const UrlTable = () => {
                 })}
                 </tbody>
             </table>
+            <nav>
+                <ul className="pagination">
+                    {Array(Math.ceil(urls.length / urlsPerPage)).fill().map((_, i) =>
+                        <li key={i}>
+                            <a onClick={() => paginate(i + 1)}>
+                                {i + 1}
+                            </a>
+                        </li>
+                    )}
+                </ul>
+            </nav>
         </>
     );
 };
