@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UrlForm from './UrlForm';
+import {Link} from "react-router-dom";
 
 const UrlTable = () => {
     const [urls, setUrls] = useState([]);
@@ -25,6 +26,9 @@ const UrlTable = () => {
                 <tr>
                     <th>Original URL</th>
                     <th>Short URL</th>
+                    <nav>
+                        <Link to="/user-requests">View Users Requests</Link>
+                    </nav>
                 </tr>
                 </thead>
                 <tbody>

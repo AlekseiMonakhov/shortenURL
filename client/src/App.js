@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import UrlForm from './components/UrlForm';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import UrlTable from './components/UrlTable';
 import UserRequests from './components/UserRequests';
 
