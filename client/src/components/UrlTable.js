@@ -10,12 +10,15 @@ const UrlTable = ({ urls }) => {
             </tr>
             </thead>
             <tbody>
-            {urls.map((url) => (
-                <tr key={url._id}>
-                    <td>{url.url}</td>
-                    <td>{url.shortenedUrl}</td>
-                </tr>
-            ))}
+            {urls.map((url) => {
+                const fullUrl = url.shortenedUrl.replace('http://localhost/', 'http://localhost:3001/');
+                return (
+                    <tr key={url._id}>
+                        <td>{url.url}</td>
+                        <td><a href={fullUrl} target="_blank" rel="noopener noreferrer">{fullUrl}</a></td>
+                    </tr>
+                );
+            })}
             </tbody>
         </table>
     );

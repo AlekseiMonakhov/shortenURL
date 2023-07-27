@@ -7,6 +7,7 @@ services:
       - PORT=${PORT}
       - SESSION_SECRET=${SESSION_SECRET}
     build: ./server
+    command: yarn nodemon index.js
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules

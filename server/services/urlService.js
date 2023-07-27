@@ -29,7 +29,9 @@ const shortenUrlService = async (url, subpart, sessionId) => {
     return newUrl;
 };
 
-const getUrlByShortUrlService = async (fullShortenedUrl) => {
+const getUrlByShortUrlService = async (shortenedUrl) => {
+    // we create the full URL here instead
+    const fullShortenedUrl = `http://localhost/${shortenedUrl}`;
     return new Promise((resolve, reject) => {
         redisClient.get(fullShortenedUrl, async (error, url) => {
             if (error) reject(error);
@@ -53,9 +55,7 @@ const getUrlByShortUrlService = async (fullShortenedUrl) => {
 };
 
 const getAllUrlsService = async (sessionId) => {
-    console.log('Session ID:', sessionId); // потом удалить
     const urls = await Url.find({ sessionId: sessionId });
-    console.log('URLs:', urls); // И это
     return urls;
 };
 

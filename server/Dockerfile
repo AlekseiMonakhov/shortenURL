@@ -4,10 +4,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install
+RUN yarn install --production=false
 
 COPY . .
 
 EXPOSE 3001
 
-CMD [ "node", "index.js" ]
+CMD [ "yarn", "nodemon", "index.js" ]

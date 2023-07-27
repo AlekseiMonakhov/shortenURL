@@ -11,7 +11,9 @@ const shortenUrl = async (req, res) => {
 
 const getUrlByShortUrl = async (req, res, next) => {
     try {
+        console.log("getUrlByShortUrl")
         const url = await urlService.getUrlByShortUrlService(req.params.shortenedUrl);
+        console.log(url)
         res.redirect(url);
     } catch (error) {
         next(error);
