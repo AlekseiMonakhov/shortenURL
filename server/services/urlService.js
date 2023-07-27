@@ -71,8 +71,8 @@ const getUserRequestsService = async () => {
 };
 
 module.exports = {
+    getUserRequestsService,
     shortenUrlService,
     getUrlByShortUrlService,
-    getAllUrlsService,
-    getUserRequestsService
+    getAllUrlsService
 };

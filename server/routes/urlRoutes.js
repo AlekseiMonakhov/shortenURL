@@ -15,6 +15,17 @@ router.get('/urls', urlController.getAllUrls);
 
 /**
  * @swagger
+ * /user-requests:
+ *  get:
+ *    summary: Retrieve the number of requests per user
+ *    responses:
+ *      200:
+ *        description: The number of requests per user.
+ */
+router.get('/user-requests', urlController.getUserRequests);
+
+/**
+ * @swagger
  * /shorten:
  *  post:
  *    summary: Shorten a URL
@@ -50,15 +61,5 @@ router.post('/shorten', urlController.shortenUrl);
  */
 router.get('/:shortenedUrl', urlController.getUrlByShortUrl);
 
-/**
- * @swagger
- * /user-requests:
- *  get:
- *    summary: Retrieve the number of requests per user
- *    responses:
- *      200:
- *        description: The number of requests per user.
- */
-router.get('/user-requests', urlController.getUserRequests);
 
 module.exports = router;

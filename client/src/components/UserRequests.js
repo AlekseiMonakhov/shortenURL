@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const UserRequests = () => {
     const [userRequests, setUserRequests] = useState([]);
 
     useEffect(() => {
-        fetch('/user-requests')
-            .then(response => response.json())
-            .then(data => setUserRequests(data));
+        const fetchData = async () => {
+            const response = await axios.get('http://localhost:3001/user-requests');
+            setUserRequests(response.data);
+        };
+        fetchData();
     }, []);
 
     return (
