@@ -14,6 +14,7 @@ const UrlForm = ({ onNewUrl }) => {
 
         if (response.status === 205) {
             alert('This subpart is already taken');
+            setCustomSubpart('');
         } else if (response.status === 200) {
             onNewUrl(response.data);
             setUrl('');
