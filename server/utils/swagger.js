@@ -7,6 +7,12 @@ const options = {
             title: 'URL Shortener Service',
             version: '1.0.0',
         },
+        servers: [
+            {
+                url: 'http://localhost:3001/api/v1',
+                description: 'Development server',
+            },
+        ],
     },
     apis: ['./routes/*.js'],
 };
