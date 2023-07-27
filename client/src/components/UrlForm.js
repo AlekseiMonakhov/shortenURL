@@ -8,7 +8,7 @@ const UrlForm = ({ onNewUrl }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post(
-            'http://localhost:3001/shorten',
+            'http://localhost:3001/api/v1/shorten',
             { url: url, subpart: customSubpart });
         onNewUrl(response.data);
         setUrl('');

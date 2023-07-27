@@ -30,8 +30,9 @@ const corsOptions = {
     credentials: true,
 }
 app.use(cors(corsOptions));
-app.use(urlRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/v1', urlRoutes);
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);

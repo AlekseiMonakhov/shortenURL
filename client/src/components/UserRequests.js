@@ -6,7 +6,7 @@ const UserRequests = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://localhost:3001/user-requests');
+            const response = await axios.get('http://localhost:3001/api/v1/user-requests');
             setUserRequests(response.data);
         };
         fetchData();

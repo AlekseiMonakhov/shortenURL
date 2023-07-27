@@ -10,7 +10,7 @@ const UrlTable = () => {
 
     useEffect(() => {
         const fetchUrls = async () => {
-            const response = await axios.get('http://localhost:3001/urls');
+            const response = await axios.get('http://localhost:3001/api/v1/urls');
             setUrls(response.data);
         };
         fetchUrls();
@@ -41,7 +41,7 @@ const UrlTable = () => {
                 </thead>
                 <tbody>
                 {currentUrls.map((url) => {
-                    const fullUrl = `http://localhost:3001/${url.shortenedUrl}`;
+                    const fullUrl = `http://localhost:3001/api/v1/${url.shortenedUrl}`;
                     return (
                         <tr key={url._id}>
                             <td>{url.url}</td>
