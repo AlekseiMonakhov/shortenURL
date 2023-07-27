@@ -1,11 +1,11 @@
 const urlService = require('../services/urlService');
 
-const shortenUrl = async (req, res, next) => {
+const shortenUrl = async (req, res) => {
     try {
-        const newUrl = await urlService.shortenUrlService(req.body.url, req.body.shortenedUrl, req.session.id);
+        const newUrl = await urlService.shortenUrlService(req.body.url, req.body.subpart, req.session.id);
         res.json(newUrl);
     } catch (error) {
-        next(error);
+        res.status(400).json({ message: error.message });
     }
 };
 

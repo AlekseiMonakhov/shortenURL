@@ -3,14 +3,16 @@ import axios from 'axios';
 
 const UrlForm = ({ onNewUrl }) => {
     const [url, setUrl] = useState('');
-    const [customUrl, setCustomUrl] = useState('');
+    const [customSubpart, setCustomSubpart] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:3001/urls', { originalUrl: url, shortenedUrl: customUrl });
+        const response = await axios.post(
+            'http://localhost:3001/shorten',
+            { url: url, subpart: customSubpart });
         onNewUrl(response.data);
         setUrl('');
-        setCustomUrl('');
+        setCustomSubpart('');
     };
 
     return (
@@ -20,8 +22,8 @@ const UrlForm = ({ onNewUrl }) => {
                 <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} required />
             </label>
             <label>
-                Custom Shortened URL (optional):
-                <input type="text" value={customUrl} onChange={(e) => setCustomUrl(e.target.value)} />
+                Custom subpart (optional):
+                <input type="text" value={customSubpart} onChange={(e) => setCustomSubpart(e.target.value)} />
             </label>
             <button type="submit">Shorten</button>
         </form>

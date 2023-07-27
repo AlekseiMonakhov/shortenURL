@@ -16,16 +16,26 @@ const app = express();
 app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
-    resave: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
+    saveUninitialized: true,
+    resave: true,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
+    cookie: {
+        secure: false, // set this to true in production, false for development
+        httpOnly: true,
+        sameSite: true // клиент и сервер в одном контейнере
+    }
 }));
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+}
+app.use(cors(corsOptions));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(urlRoutes);
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

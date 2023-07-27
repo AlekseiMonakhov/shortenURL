@@ -12,8 +12,8 @@ const UrlTable = ({ urls }) => {
             <tbody>
             {urls.map((url) => (
                 <tr key={url._id}>
-                    <td>{url.originalUrl}</td>
-                    <td>{url.shortUrl}</td>
+                    <td>{url.url}</td>
+                    <td>{url.shortenedUrl}</td>
                 </tr>
             ))}
             </tbody>
