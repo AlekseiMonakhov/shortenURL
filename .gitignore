@@ -1,3 +1,7 @@
 .idea
 .env
 node_modules
+combined.log
+error.log
+server/yarn-error.log
+
