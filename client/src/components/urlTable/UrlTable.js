@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UrlForm from './UrlForm';
+import UrlForm from '../urlForm/UrlForm';
 import {Link} from "react-router-dom";
+import Pagination from '../pagination/Pagination';
+import styles from './UrlTable.module.css';
 
 const UrlTable = () => {
     const [urls, setUrls] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const urlsPerPage = 5;
+    const urlsPerPage = 10;
 
     useEffect(() => {
         const fetchUrls = async () => {
@@ -24,19 +26,14 @@ const UrlTable = () => {
     const indexOfFirstUrl = indexOfLastUrl - urlsPerPage;
     const currentUrls = urls.slice(indexOfFirstUrl, indexOfLastUrl);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     return (
         <>
             <UrlForm onNewUrl={handleNewUrl} />
-            <table>
+            <table className={styles.table}>
                 <thead>
                 <tr>
                     <th>Original URL</th>
                     <th>Short URL</th>
-                    <nav>
-                        <Link to="/user-requests">View Users Requests</Link>
-                    </nav>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,22 +42,20 @@ const UrlTable = () => {
                     return (
                         <tr key={url._id}>
                             <td>{url.url}</td>
-                            <td><a href={fullUrl} >{fullUrl}</a></td>
+                            <td><a href={fullUrl}>{fullUrl}</a></td>
                         </tr>
                     );
                 })}
                 </tbody>
             </table>
-            <nav>
-                <ul className="pagination">
-                    {Array(Math.ceil(urls.length / urlsPerPage)).fill().map((_, i) =>
-                        <li key={i}>
-                            <a onClick={() => paginate(i + 1)}>
-                                {i + 1}
-                            </a>
-                        </li>
-                    )}
-                </ul>
+            <Pagination
+                totalItems={urls.length}
+                itemsPerPage={urlsPerPage}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+            />
+            <nav className={styles.linkContainer}>
+                <Link className={styles.link} to="/user-requests">View Users Requests</Link>
             </nav>
         </>
     );

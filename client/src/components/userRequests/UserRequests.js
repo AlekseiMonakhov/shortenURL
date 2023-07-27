@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styles from './UserRequests.module.css';
+import Pagination from '../pagination/Pagination';
 
 const UserRequests = () => {
     const [userRequests, setUserRequests] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const requestsPerPage = 10;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,10 +16,14 @@ const UserRequests = () => {
         fetchData();
     }, []);
 
+    const indexOfLastRequest = currentPage * requestsPerPage;
+    const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
+    const currentRequests = userRequests.slice(indexOfFirstRequest, indexOfLastRequest);
+
     return (
-        <div>
-            <h2>Distribution of the number of requests between users</h2>
-            <table>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Distribution of the number of requests between users</h2>
+            <table className={styles.table}>
                 <thead>
                 <tr>
                     <th>Session ID</th>
@@ -23,7 +31,7 @@ const UserRequests = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {userRequests.map((user, index) => (
+                {currentRequests.map((user, index) => (
                     <tr key={index}>
                         <td>{user._id}</td>
                         <td>{user.numberOfRequests}</td>
@@ -31,6 +39,12 @@ const UserRequests = () => {
                 ))}
                 </tbody>
             </table>
+            <Pagination
+                totalItems={userRequests.length}
+                itemsPerPage={requestsPerPage}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+            />
         </div>
     );
 };

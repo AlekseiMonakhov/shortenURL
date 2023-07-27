@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
-import UrlTable from "./components/UrlTable";
-import UserRequests from "./components/UserRequests";
+import UrlTable from "./components/urlTable/UrlTable";
+import UserRequests from "./components/userRequests/UserRequests";
 import React from "react";
 
 

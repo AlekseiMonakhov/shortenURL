@@ -1,0 +1,22 @@
+.pagination {
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+    padding: 0;
+    position: sticky;
+    bottom: 0;
+}
+
+.paginationLink {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.paginationItem {
+    margin: 0 5px;
+}
+
+.paginationItemActive .paginationLink {
+    background-color: rgba(26, 26, 168, 0.98);
+    color: white;
+}
