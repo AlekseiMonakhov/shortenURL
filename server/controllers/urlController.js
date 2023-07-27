@@ -1,11 +1,15 @@
 const urlService = require('../services/urlService');
 
-const shortenUrl = async (req, res) => {
+const shortenUrl = async (req, res, next) => {
     try {
         const newUrl = await urlService.shortenUrlService(req.body.url, req.body.subpart, req.session.id);
         res.json(newUrl);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        if (error.message === "This subpart is already taken") {
+            res.status(205).json();
+        } else {
+            next(error);
+        }
     }
 };
 

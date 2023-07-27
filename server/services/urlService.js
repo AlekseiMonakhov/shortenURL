@@ -9,11 +9,9 @@ const shortenUrlService = async (url, subpart, sessionId) => {
     if (!subpart) {
         subpart = cryptoRandomString({length: 7, type: 'alphanumeric'});
     }
-
-    const existingUrl = await Url.findOne({ subpart });
-
+    const existingUrl = await Url.findOne({ shortenedUrl: subpart });
     if (existingUrl) {
-        throw new Error('This URL subpart is already in use');
+        throw new Error("This subpart is already taken");
     }
 
     const newUrl = new Url({
