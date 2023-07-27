@@ -45,7 +45,7 @@ const UrlTable = () => {
                     return (
                         <tr key={url._id}>
                             <td>{url.url}</td>
-                            <td><a href={fullUrl} target="_blank" rel="noopener noreferrer">{fullUrl}</a></td>
+                            <td><a href={fullUrl} >{fullUrl}</a></td>
                         </tr>
                     );
                 })}

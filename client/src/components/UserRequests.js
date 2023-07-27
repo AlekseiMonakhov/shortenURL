@@ -14,7 +14,7 @@ const UserRequests = () => {
 
     return (
         <div>
-            <h2>Распределение числа запросов между пользователями</h2>
+            <h2>Distribution of the number of requests between users</h2>
             <table>
                 <thead>
                 <tr>

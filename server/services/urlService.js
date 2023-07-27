@@ -39,7 +39,7 @@ const getUrlByShortUrlService = async (shortenedUrl) => {
                 const urlDoc = await Url.findOne({ shortenedUrl });
 
                 if (urlDoc) {
-                    redisClient.set(shortenedUrl, urlDoc.url);
+                    redisClient.client/node_modulesset(shortenedUrl, urlDoc.url);
                     urlDoc.clicks += 1;
                     await urlDoc.save();
                     resolve(urlDoc.url);

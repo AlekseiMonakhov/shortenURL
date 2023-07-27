@@ -1,22 +1,18 @@
 import React from 'react';
 import axios from 'axios';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import UrlTable from './components/UrlTable';
-import UserRequests from './components/UserRequests';
+import { BrowserRouter } from 'react-router-dom';
+import Router from "./router";
 
 axios.defaults.withCredentials = true;
 
 const App = () => {
     return (
-        <Router>
+        <BrowserRouter>
             <div className="App">
                 <h1>URL Shortener</h1>
-                <Routes>
-                    <Route path="/" element={<UrlTable />} />
-                    <Route path="user-requests" element={<UserRequests />} />
-                </Routes>
+                <Router />
             </div>
-        </Router>
+        </BrowserRouter>
     );
 };
 

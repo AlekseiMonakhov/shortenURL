@@ -20,9 +20,9 @@ app.use(session({
     resave: true,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
     cookie: {
-        secure: false, // set this to true in production, false for development
+        secure: false,
         httpOnly: true,
-        sameSite: true // клиент и сервер в одном контейнере
+        sameSite: true
     }
 }));
 const corsOptions = {
