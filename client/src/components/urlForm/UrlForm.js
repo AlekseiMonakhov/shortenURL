@@ -11,12 +11,14 @@ const UrlForm = ({ onNewUrl }) => {
         const response = await axios.post(
             'http://localhost:3001/api/v1/shorten',
             { url: url, subpart: customSubpart });
+
         if (response.status === 205) {
             alert('This subpart is already taken');
+        } else if (response.status === 200) {
+            onNewUrl(response.data);
+            setUrl('');
+            setCustomSubpart('');
         }
-        onNewUrl(response.data);
-        setUrl('');
-        setCustomSubpart('');
     };
 
     return (
