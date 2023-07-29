@@ -1,6 +1,9 @@
 git clone
 
-add .env
+add .env:
+MONGO_URL=mongodb://mongo:27017/my-database
+REDIS_URL=redis://redis:6379
+PORT=3001
 
 docker-compose up
 
