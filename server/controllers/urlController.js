@@ -1,8 +1,10 @@
-const urlService = require('../services/urlService');
+const UrlService = require('../services/urlService');
+
+const urlServiceInstance = new UrlService();
 
 const shortenUrl = async (req, res, next) => {
     try {
-        const newUrl = await urlService.shortenUrlService(req.body.url, req.body.subpart, req.session.id);
+        const newUrl = await urlServiceInstance.shortenUrl(req.body.url, req.body.subpart, req.session.id);
         res.json(newUrl);
     } catch (error) {
         if (error.message === "This subpart is already taken") {
@@ -15,7 +17,7 @@ const shortenUrl = async (req, res, next) => {
 
 const getUrlByShortUrl = async (req, res, next) => {
     try {
-        const url = await urlService.getUrlByShortUrlService(req.params.shortenedUrl);
+        const url = await urlServiceInstance.getUrlByShortUrl(req.params.shortenedUrl);
         res.redirect(url);
     } catch (error) {
         next(error);
@@ -24,7 +26,7 @@ const getUrlByShortUrl = async (req, res, next) => {
 
 const getAllUrls = async (req, res, next) => {
     try {
-        const urls = await urlService.getAllUrlsService(req.session.id);
+        const urls = await urlServiceInstance.getAllUrls(req.session.id);
         res.json(urls);
     } catch (error) {
         next(error);
@@ -33,7 +35,7 @@ const getAllUrls = async (req, res, next) => {
 
 const getUserRequests = async (req, res, next) => {
     try {
-        const userRequests = await urlService.getUserRequestsService();
+        const userRequests = await urlServiceInstance.getUserRequests();
         res.json(userRequests);
     } catch (error) {
         next(error);

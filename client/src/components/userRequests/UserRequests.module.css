@@ -27,3 +27,18 @@
     margin-top: 30px;
     text-align: center;
 }
+.linkContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.link {
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

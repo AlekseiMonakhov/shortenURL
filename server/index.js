@@ -4,11 +4,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const urlRoutes = require('./routes/urlRoutes');
-const logger = require('./utils/logger');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./utils/swagger');
-const { logErrors, clientErrorHandler, errorHandler } = require('./middlewares/errorHandlers');
-const cronTask = require('./utils/cronTask');
+const { clientErrorHandler, errorHandler } = require('./middlewares/errorHandlers');
 const cors = require('cors')
 const PORT = process.env.PORT || 5000;
 
@@ -31,9 +27,6 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 app.use('/api/v1', urlRoutes);
-app.use('/api-docs', swaggerUi.serve);
-app.get('/api-docs', swaggerUi.setup(swaggerDocument));
-app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
 
@@ -43,8 +36,6 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true
 });
 
-cronTask();
-
 app.listen(PORT, () => {
-    logger.info(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

@@ -1,10 +1,4 @@
 .idea
-.env
 server/node_modules
 client/node_modules
-combined.log
-server/combined.log
-error.log
-server/error.log
-server/yarn-error.log
 

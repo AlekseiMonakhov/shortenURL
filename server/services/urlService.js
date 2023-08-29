@@ -1,76 +1,61 @@
 const Url = require('../models/url');
-const redisClient = require('../utils/redis-client');
 let cryptoRandomString;
 import('crypto-random-string').then((module) => {
     cryptoRandomString = module.default;
 });
 
-const shortenUrlService = async (url, subpart, sessionId) => {
-    if (!subpart) {
-        subpart = cryptoRandomString({length: 7, type: 'alphanumeric'});
+class UrlService {
+    async shortenUrl(url, subpart, sessionId) {
+        if (!subpart) {
+            subpart = cryptoRandomString({ length: 7, type: 'alphanumeric' });
+        }
+        const existingUrl = await Url.findOne({ shortenedUrl: subpart });
+        if (existingUrl) {
+            throw new Error("This subpart is already taken");
+        }
+
+        const newUrl = new Url({
+            url, shortenedUrl: subpart, sessionId
+        });
+
+        await newUrl.save();
+
+        return newUrl;
     }
-    const existingUrl = await Url.findOne({ shortenedUrl: subpart });
-    if (existingUrl) {
-        throw new Error("This subpart is already taken");
-    }
 
-    const newUrl = new Url({
-        url, shortenedUrl: subpart, sessionId
-    });
+    async getUrlByShortUrl(shortenedUrl) {
+        try {
+            const urlDoc = await Url.findOne({ shortenedUrl });
 
-    await newUrl.save();
-
-    redisClient.set(subpart, url);
-
-    return newUrl;
-};
-
-
-const getUrlByShortUrlService = async (shortenedUrl) => {
-    return new Promise((resolve, reject) => {
-        redisClient.get(shortenedUrl, async (error, url) => {
-            if (error) reject(error);
-
-            if (url) {
-                resolve(url);
+            if (urlDoc) {
+                urlDoc.clicks += 1;
+                await urlDoc.save();
+                return urlDoc.url;
             } else {
-                const urlDoc = await Url.findOne({ shortenedUrl });
+                throw new Error('URL not found');
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 
-                if (urlDoc) {
-                    redisClient.client/node_modulesset(shortenedUrl, urlDoc.url);
-                    urlDoc.clicks += 1;
-                    await urlDoc.save();
-                    resolve(urlDoc.url);
-                } else {
-                    reject(new Error('URL not found'));
+    async getAllUrls(sessionId) {
+        const urls = await Url.find({ sessionId: sessionId });
+        return urls;
+    }
+
+    async getUserRequests() {
+        const userRequests = await Url.aggregate([
+            {
+                $group: {
+                    _id: "$sessionId",
+                    numberOfRequests: { $sum: "$clicks" }
                 }
             }
-        });
-    });
-};
+        ]);
 
+        return userRequests;
+    }
+}
 
-const getAllUrlsService = async (sessionId) => {
-    const urls = await Url.find({ sessionId: sessionId });
-    return urls;
-};
-
-const getUserRequestsService = async () => {
-    const userRequests = await Url.aggregate([
-        {
-            $group: {
-                _id: "$sessionId",
-                numberOfRequests: { $sum: "$clicks" }
-            }
-        }
-    ]);
-
-    return userRequests;
-};
-
-module.exports = {
-    getUserRequestsService,
-    shortenUrlService,
-    getUrlByShortUrlService,
-    getAllUrlsService
-};
+module.exports = UrlService;

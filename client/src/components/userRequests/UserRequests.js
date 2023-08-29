@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 import styles from './UserRequests.module.css';
 import Pagination from '../pagination/Pagination';
 
@@ -22,12 +23,12 @@ const UserRequests = () => {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Distribution of the number of requests between users</h2>
+            <h2 className={styles.title}>Distribution of the number of clicks between users</h2>
             <table className={styles.table}>
                 <thead>
                 <tr>
                     <th>Session ID</th>
-                    <th>Number of Requests</th>
+                    <th>Clicks</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,9 @@ const UserRequests = () => {
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
             />
+            <nav className={styles.linkContainer}>
+                <Link className={styles.link} to="/">Home</Link>
+            </nav>
         </div>
     );
 };
